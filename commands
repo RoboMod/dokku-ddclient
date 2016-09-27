@@ -18,7 +18,7 @@ case "$1" in
 help_content
     }
 
-    if [[ $1 = "hello:help" ]] ; then
+    if [[ $1 = "ddclient:help" ]] ; then
         echo -e 'Usage: dokku ddclient[:COMMAND] '
         echo ''
         echo 'Manages the configuration for ddclient'
