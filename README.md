@@ -20,6 +20,7 @@ dokku plugin:install-dependencies
 Set DynDNS provider parameters
 
 ```
+dokku ddclient:set:server <server>  (required before use!)
 dokku ddclient:set:login <login>  (required before use!)
 dokku ddclient:set:password <password>  (required before use!)
 
