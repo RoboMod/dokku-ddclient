@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Recreates the ddclient configuration
+
+set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x

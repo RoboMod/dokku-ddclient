@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
+
+case "$1" in
+  help | ddclient:help)
+    help_content_func () {
+      declare desc="return help_content string"
+      cat<<help_content
+    ddclient, Print ddclient configuration (with hidden password)
+    ddclient:update, Update dyndns service
+    ddclient:set:server <server>, Set server of dyndns provider
+    ddclient:set:login <login>, Set login
+    ddclient:set:password <password>, Set password
+    ddclient:set:protocol <protocol>, Set protocol (default: dyndns2)
+    ddclient:set:use <use>, Set ip detection method (default: web)
+    ddclient:set:delay <delay>, Set delay for daemon (seconds; default: 300)
+    ddclient:set:ssl <yes|no>, Enable/disable ssl login (default: yes)
+help_content
+    }
+
+    if [[ $1 = "hello:help" ]] ; then
+        echo -e 'Usage: dokku ddclient[:COMMAND] '
+        echo ''
+        echo 'Manages the configuration for ddclient'
+        echo ''
+        echo 'Commands:'
+        help_content_func | sort | column -c2 -t -s,
+    else
+        help_content_func
+    fi
+    ;;
+
+  *)
+    exit $DOKKU_NOT_IMPLEMENTED_EXIT
+    ;;
+
+esac

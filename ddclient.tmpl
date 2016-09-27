@@ -1,0 +1,13 @@
+# ddclient configuration created by dokku ddclient plugin
+
+daemon=${DDCLIENT_DELAY}
+
+use=${DDCLIENT_USE}
+protocol=${DDCLIENT_PROTOCOL}
+
+server=${DDCLIENT_SERVER}
+login=${DDCLIENT_LOGIN}
+password=${DDCLIENT_PASSWORD}
+ssl=${DDCLIENT_SSL}
+
+JOIN(",", ${DDCLIENT_VHOSTS})

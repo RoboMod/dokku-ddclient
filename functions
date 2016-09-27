@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
+source "$PLUGIN_AVAILABLE_PATH/config/functions"
+source "$PLUGIN_AVAILABLE_PATH/domains/functions"
+
+nginx_build_config() {
+    declare desc="build ddclient config using sigil"
+    local DDCLIENT_TEMPLATE="$PLUGIN_AVAILABLE_PATH/dokku-ddclient/ddclient.tmpl";
+    local DDCLIENT_CONF="/etc/ddclient.conf"
+
+    local VHOSTS=$(get_default_vhosts)
+    local DDCLIENT_SERVER=$(config_get --global DDCLIENT_SERVER)
+    local DDCLIENT_LOGIN=$(config_get --global DDCLIENT_LOGIN)
+    local DDCLIENT_PASSWORD=$(config_get --global DDCLIENT_PASSWORD)
+    local DDCLIENT_PROTOCOL=$(config_get --global DDCLIENT_PROTOCOL)
+    local DDCLIENT_USE=$(config_get --global DDCLIENT_USE)
+    local DDCLIENT_DELAY=$(config_get --global DDCLIENT_DELAY)
+    local DDCLIENT_SSL=$(config_get --global DDCLIENT_SSL)
+
+    local SIGIL_PARAMS=(-f $DDCLIENT_TEMPLATE
+        DDCLIENT_SERVER="$DDCLIENT_SERVER"
+        DDCLIENT_LOGIN="$DDCLIENT_LOGIN"
+        DDCLIENT_PASSWORD="$DDCLIENT_PASSWORD"
+        DDCLIENT_PROTOCOL="$DDCLIENT_PROTOCOL"
+        DDCLIENT_USE="$DDCLIENT_USE"
+        DDCLIENT_DELAY="$DDCLIENT_DELAY"
+        DDCLIENT_SSL="$DDCLIENT_SSL"
+        DDCLIENT_VHOSTS="$VHOSTS")
+
+    sigil "${SIGIL_PARAMS[@]}" | cat -s > "$DDCLIENT_CONF"
+}
